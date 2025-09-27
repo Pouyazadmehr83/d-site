@@ -2,8 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse,JsonResponse
-import requests
-
+ 
 def index_views(request):
     return render(request, "website/index.html")
 
