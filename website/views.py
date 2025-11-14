@@ -11,3 +11,6 @@ def about_views(request):
  
 def contact_views(request):
     return render(request, "website/contact.html")
+
+'''def test(request):
+    return render(request,"test.html")'''

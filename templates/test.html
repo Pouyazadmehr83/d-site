@@ -1,4 +1,4 @@
- 
+{% load blog_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,16 +8,6 @@
 </head>
 <body>
     <h1>hello pouya</h1>
-    {{posts}}
-    
-    {% for post in posts %}
-        {% if post.status == 0 %}
-        <p>not publish yet</p>
-        {% else %}
-
-        <h1>{{post.title}}</h1>
-        <p>{{post.content}}</p>
-        {% endif %}
-    {% endfor %}
+    <p>{% popularposts %}</p>
 </body>
 </html>
