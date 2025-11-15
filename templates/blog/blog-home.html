@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
- {% load blog_tags %}
+{% load blog_tags %}
 			<!-- start banner Area -->
 			<section class="banner-area relative blog-home-banner" id="home">	
 				<div class="overlay overlay-bg"></div>
@@ -91,11 +91,11 @@
 								<div class="col-lg-3  col-md-3 meta-details">	
 									<ul class="tags">
 										{% for cat in post.category.all %}
-										<li><a href="#">{{cat.name}}</a>{% if not forloop.last %},{% endif %}</li>	
+										<li><a href="{% url 'blog:category' cat_name=cat.name %}">{{cat.name}}</a>{% if not forloop.last %},{% endif %}</li>	
 										{% endfor %}
 									</ul>
 									<div class="user-details row">
-										<p class="user-name col-lg-12 col-md-12 col-6"><a href="#">{{post.author.get_full_name}}</a> <span class="lnr lnr-user"></span></p>
+										<p class="user-name col-lg-12 col-md-12 col-6"><a href="{% url 'blog:author' author_username=post.author.username %}">{{post.author.get_full_name}}</a> <span class="lnr lnr-user"></span></p>
 										<p class="date col-lg-12 col-md-12 col-6"><a href="#">{{post.published_date | date:"D d"}}</a> <span class="lnr lnr-calendar-full"></span></p>
 										<p class="view col-lg-12 col-md-12 col-6"><a href="#">1.2M Views</a> <span class="lnr lnr-eye"></span></p>
 										<p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span class="lnr lnr-bubble"></span></p>						
@@ -108,42 +108,69 @@
 									<a class="posts-title" href="{% url 'blog:single' pid=post.id %}"><h3>{{post.title}}</h3></a>
 									<p class="excert">
 										{{post.content | truncatechars:40}}									</p>
-									<a href="blog-single.html" class="primary-btn">View More</a>
+									<a href="{% url 'blog:single' pid=post.id %}" class="primary-btn">View More</a>
 								</div>
 							</div>
 							{% endfor %}												
 		                    <nav class="blog-pagination justify-content-center d-flex">
-		                        <ul class="pagination">
-		                            <li class="page-item">
-		                                <a href="#" class="page-link" aria-label="Previous">
-		                                    <span aria-hidden="true">
-		                                        <span class="lnr lnr-chevron-left"></span>
-		                                    </span>
-		                                </a>
-		                            </li>
-		                            <li class="page-item"><a href="#" class="page-link">01</a></li>
-		                            <li class="page-item active"><a href="#" class="page-link">02</a></li>
-		                            <li class="page-item"><a href="#" class="page-link">03</a></li>
-		                            <li class="page-item"><a href="#" class="page-link">04</a></li>
-		                            <li class="page-item"><a href="#" class="page-link">09</a></li>
-		                            <li class="page-item">
-		                                <a href="#" class="page-link" aria-label="Next">
-		                                    <span aria-hidden="true">
-		                                        <span class="lnr lnr-chevron-right"></span>
-		                                    </span>
-		                                </a>
-		                            </li>
-		                        </ul>
+									<!-- Pagination Section - کاملا اصلاح شده -->
+							{% if posts.paginator.num_pages > 1 %}
+							<nav class="blog-pagination justify-content-center d-flex">
+								<ul class="pagination">
+									<!-- Previous Page -->
+									{% if posts.has_previous %}
+									<li class="page-item">
+										<a href="?page={{ posts.previous_page_number }}" class="page-link" aria-label="Previous">
+											<span aria-hidden="true">
+												<span class="lnr lnr-chevron-left"></span>
+											</span>
+										</a>
+									</li>
+									{% else %}
+									<li class="page-item disabled">
+										<a href="#" class="page-link" aria-label="Previous">
+											<span aria-hidden="true">
+												<span class="lnr lnr-chevron-left"></span>
+											</span>
+										</a>
+									</li>
+									{% endif %}
+
+									<!-- Page Numbers -->
+									{% for i in posts.paginator.page_range %}
+										{% if posts.number == i %}
+											<li class="page-item active"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+										{% else %}
+											<li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+										{% endif %}
+									{% endfor %}
+
+									<!-- Next Page -->
+									{% if posts.has_next %}
+									<li class="page-item">
+										<a href="?page={{ posts.next_page_number }}" class="page-link" aria-label="Next">
+											<span aria-hidden="true">
+												<span class="lnr lnr-chevron-right"></span>
+											</span>
+										</a>
+									</li>
+									{% else %}
+									<li class="page-item disabled">
+										<a href="#" class="page-link" aria-label="Next">
+											<span aria-hidden="true">
+												<span class="lnr lnr-chevron-right"></span>
+											</span>
+										</a>
+									</li>
+									{% endif %}
+								</ul>
+							</nav>
+							{% endif %}
 		                    </nav>
 						</div>
 						<div class="col-lg-4 sidebar-widgets">
 							<div class="widget-wrap">
-								<div class="single-sidebar-widget search-widget">
-									<form class="search-form" action="#">
-			                            <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'" >
-			                            <button type="submit"><i class="fa fa-search"></i></button>
-			                        </form>
-								</div>
+							{% include 'blog/blog-search.html' %}
 								<div class="single-sidebar-widget user-info-widget">
 									<img src="{% static 'img/blog/user-info.png' %}" alt="">
 									<a href="#"><h4>Charlie Barber</h4></a>
