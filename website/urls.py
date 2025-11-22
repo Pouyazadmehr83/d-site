@@ -1,4 +1,6 @@
- 
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import StaticViewSitemap
+
 from django.urls import path
 from website.views  import *
 
@@ -10,4 +12,5 @@ urlpatterns = [
     path("contact",contact_views,name='contact'),
     path("newsletter",newsletter_view,name='newsletter'),
     #path("test",test,name='test')
+    
 ]

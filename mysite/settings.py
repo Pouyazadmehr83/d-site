@@ -31,15 +31,37 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.humanize",
+    'django_extensions',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'django_summernote',
+    'captcha',
+
+    'taggit',
+    'robots',
     'website',
     'blog'
 ]
+# site fersamwork
+SITE_ID = 1
+
+#robots
+
+ROBOTS_USE_HOST = False
+ROBOTS_USE_SITEMAP =False
+
+#captcha
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
