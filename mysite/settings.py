@@ -44,11 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django_summernote',
     'captcha',
-
     'taggit',
     'robots',
     'website',
-    'blog'
+    'blog',
+    'accounts'
 ]
 # site fersamwork
 SITE_ID = 1
