@@ -1,29 +1,46 @@
 # d-site
 
-A learning Django web application focused on backend fundamentals and practical hands-on experience.
+A production-minded blog application built with Django — designed for learning and demonstration of common blog features: user registration/login, post creation/editing, commenting, tagging, and search.
 
-## Overview
+Repository: https://github.com/Pouyazadmehr83/d-site
 
-This is a beginner-friendly Django project created to learn web backend development with Python and Django. The repo contains Django apps, templates, static assets (SCSS/CSS/JS), and example views showing models, forms, and admin usage.
+## Project summary
 
-## What is included
-- Django project and one or more Django apps
-- Python code (views, models, URLs)
-- Templates and static files (SCSS/HTML/CSS/JS)
+d-site is a Django-based blogging platform created as a learning project. The code demonstrates a proper Django project structure, well-defined models, forms, views, and templates. Key user-facing features include:
+
+- User accounts: registration, login/logout, password reset
+- Post management: create, read, update, delete (CRUD) posts
+- Drafts & publishing workflow (if implemented)
+- Rich post metadata: tags and categories
+- Commenting system with moderation controls (users can add comments)
+- Full-text / basic search across posts
+- Ability to create and edit posts, add tags, and search posts
+- Responsive templates using SCSS/CSS and JavaScript
+- Admin integration for site management
+
+## Technologies
+
+- Python 3.8+
+- Django (see requirements.txt)
+- SCSS / CSS / HTML / JavaScript for front-end
+- Optional: PostgreSQL for production; SQLite for local development
 
 ## Requirements
+
+- Git
 - Python 3.8+
 - pip
 - virtualenv (recommended)
-- Node.js + npm or Dart Sass (if you want to compile SCSS locally)
+- Node.js + npm (optional — only if you need to compile SCSS locally)
 
-## Installation (detailed)
-1. Clone the repository:
+## Installation — exact steps
+
+1. Clone the repository
    git clone https://github.com/Pouyazadmehr83/d-site.git
    cd d-site
 
-2. Create and activate a virtual environment:
-   # Linux / macOS
+2. Create and activate a virtual environment
+   # macOS / Linux
    python -m venv .venv
    source .venv/bin/activate
 
@@ -31,50 +48,66 @@ This is a beginner-friendly Django project created to learn web backend developm
    python -m venv .venv
    .\.venv\Scripts\Activate.ps1
 
-3. Install Python dependencies (if requirements.txt exists):
+3. Install Python dependencies
    pip install -r requirements.txt
-   
-   If there is no requirements.txt, install Django and common deps:
-   pip install django gunicorn psycopg2-binary
 
-4. Configure environment variables (recommended):
-   - SECRET_KEY: Django secret key
-   - DEBUG: True (development) or False (production)
-   - DATABASE_URL or configure DATABASES in settings.py
+   If requirements.txt is not present:
+   pip install "django>=3.2" gunicorn psycopg2-binary django-environ django-crispy-forms
 
-5. Apply migrations:
+4. Configure environment variables
+   Create a `.env` file or export environment variables. Example `.env`:
+   SECRET_KEY=replace_with_secure_key
+   DEBUG=True
+   DATABASE_URL=sqlite:///db.sqlite3
+   ALLOWED_HOSTS=localhost,127.0.0.1
+
+   The project uses environment configuration (django-environ) — ensure settings.py reads from the `.env` or environment.
+
+5. Apply database migrations
    python manage.py migrate
 
-6. Create a superuser for admin access:
+6. Create a superuser for admin and initial testing
    python manage.py createsuperuser
+   # Follow prompts to set username/email/password
 
-7. (Optional) Compile SCSS to CSS:
-   - If the project includes SCSS and a package.json, you may use npm scripts: npm install && npm run build
-   - Or use Dart Sass directly: npx sass scss/:static/css/ --no-source-map --style=compressed
+7. (Optional) Compile SCSS to CSS
+   If SCSS is used and package.json contains build scripts:
+   npm install
+   npm run build
+   Or with Dart Sass:
+   npx sass scss/:static/css/ --no-source-map --style=compressed
 
-8. Collect static files (production):
+8. Collect static files (production)
    python manage.py collectstatic --noinput
 
-9. Run the development server:
+9. Run development server
    python manage.py runserver 0.0.0.0:8000
-   Open http://localhost:8000 in your browser.
+   Open http://localhost:8000
 
-## Running with Gunicorn (production example)
-1. Ensure DEBUG=False and proper ALLOWED_HOSTS set.
-2. Install gunicorn: pip install gunicorn
-3. Run: gunicorn project_name.wsgi:application --bind 0.0.0.0:8000
+## Common management commands
 
-## Database notes
-- For development, SQLite works out of the box.
-- For production, configure PostgreSQL/MySQL and update settings. Use environment variables for credentials.
+- Make migrations:
+  python manage.py makemigrations
+- Apply migrations:
+  python manage.py migrate
+- Load demo fixtures (if provided):
+  python manage.py loaddata fixtures/demo.json
+- Run tests:
+  python manage.py test
 
-## Tests
-If the project includes tests, run:
-   python manage.py test
+## Feature notes (as requested)
+
+- Models: Post, Tag, Comment, Profile (or User extension) demonstrate relations and indexing for search.
+- Comments: users can post comments on posts; moderation can be handled via admin.
+- Posts: users can create and edit posts; posts support tagging and search.
+- Search: initially implemented via ORM queries (icontains); can be upgraded to full-text search (Postgres) or external search engines.
 
 ## Contributing
-- Fork the repository, create feature branches, add tests, and open a PR.
+
+- Fork → create a feature branch → open a pull request
+- Include tests and update README if you add or change behavior
 
 ## License & Contact
-Add a LICENSE file to clarify reuse.
-Author: Pouyazadmehr83
+
+- Add a LICENSE file (e.g., MIT) if you want to permit reuse.
+- Author: Pouyazadmehr83
